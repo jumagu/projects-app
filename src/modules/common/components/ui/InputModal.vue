@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 interface Props {
   open: boolean;
   title: string;
+  value?: string;
   btnText: string;
   subtitle?: string;
   inputPlaceholder?: string;
@@ -16,12 +17,22 @@ const emit = defineEmits<{
   value: [text: string];
 }>();
 
-const inputValue = ref('');
+const inputValue = ref(props.value);
 const inputRef = ref<HTMLInputElement | null>(null);
 
-watch(props, ({ open }) => {
-  if (open) inputRef.value?.focus();
-});
+watch(
+  () => props.open,
+  (open) => {
+    if (open) inputRef.value?.focus();
+  },
+);
+
+watch(
+  () => props.value,
+  (value) => {
+    inputValue.value = value;
+  },
+);
 
 const submitHanlder = () => {
   if (!inputValue.value) {
@@ -32,12 +43,13 @@ const submitHanlder = () => {
   emit('value', inputValue.value.trim());
   emit('close');
 
+  inputRef.value?.blur();
   inputValue.value = '';
 };
 </script>
 
 <template>
-  <dialog id="my_modal_2" class="modal" :open="open" @close="$emit('close')">
+  <dialog class="modal" :open="open" @close="$emit('close')">
     <div class="modal-box">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -49,6 +61,7 @@ const submitHanlder = () => {
       <form class="flex gap-2" @submit.prevent="submitHanlder">
         <input
           ref="inputRef"
+          maxlength="50"
           v-model="inputValue"
           class="input input-primary w-full"
           :placeholder="inputPlaceholder ?? 'Insert a value'"

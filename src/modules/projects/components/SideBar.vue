@@ -1,29 +1,45 @@
-<template>
-  <aside class="bg-base-200 min-w-60 min-h-screen">
-    <h2 class="text-lg font-bold mx-4">Projects</h2>
-    <p class="text-sm text-gray-500 mx-4">There are no projects</p>
+<script setup lang="ts">
+import { useProjectsStore } from '../stores/projects.store';
 
-    <ul class="menu rounded-box">
-      <li><a>Item 1</a></li>
-      <li>
-        <details open>
-          <summary>Parent</summary>
+const projectsStore = useProjectsStore();
+</script>
+
+<template>
+  <aside class="bg-base-200 h-full w-60">
+    <div class="h-11 w-full py-2 px-3">
+      <router-link class="flex items-center" to="/">
+        <img class="w-8" src="../../../assets/logo.svg" alt="Projects Logo" />
+        <h2 class="text-lg font-bold ml-2">Projects</h2>
+      </router-link>
+    </div>
+
+    <p v-if="projectsStore.noProjects" class="text-sm text-gray-500 p-4">There are no projects</p>
+
+    <ul v-else class="menu rounded-box h-[calc(100%-44px)] overflow-y-scroll">
+      <li v-for="project in projectsStore.projectList" :key="project.id">
+        <details v-if="project.tasks.length > 0">
+          <summary>
+            <router-link :to="`/project/${project.id}`" class="truncate">
+              <span class="truncate">
+                {{ project.name }}
+              </span>
+            </router-link>
+          </summary>
           <ul>
-            <li><a>Submenu 1</a></li>
-            <li><a>Submenu 2</a></li>
-            <li>
-              <details open>
-                <summary>Parent</summary>
-                <ul>
-                  <li><a>Submenu 1</a></li>
-                  <li><a>Submenu 2</a></li>
-                </ul>
-              </details>
+            <li v-for="task in project.tasks" :key="task.id">
+              <router-link :to="`/project/${project.id}`">
+                <span class="truncate">{{ task.name }}</span>
+              </router-link>
             </li>
           </ul>
         </details>
+
+        <router-link v-else :to="`/project/${project.id}`">
+          <span class="truncate">
+            {{ project.name }}
+          </span>
+        </router-link>
       </li>
-      <li><a>Item 3</a></li>
     </ul>
   </aside>
 </template>

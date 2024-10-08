@@ -4,22 +4,22 @@ interface Props {
 }
 
 defineProps<Props>();
+
+defineEmits<{
+  close: [void];
+}>();
 </script>
 
 <template>
-  <dialog id="my_modal_2" class="modal" :open="open" @close="$emit('close')">
+  <dialog class="modal" :open="open" @close="$emit('close')">
     <div class="modal-box">
       <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
 
-      <div>
-        <slot name="header" />
-      </div>
+      <slot name="header" />
 
-      <div>
-        <slot name="body" />
-      </div>
+      <slot name="body" />
 
       <div class="modal-action">
         <slot name="actions" />
