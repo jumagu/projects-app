@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SideBar from '../components/SideBar.vue';
 import NavBar from '@/modules/common/components/ui/NavBar.vue';
+import BreadCrumbs from '@/modules/common/components/ui/BreadCrumbs.vue';
 </script>
 
 <template>
@@ -10,6 +11,9 @@ import NavBar from '@/modules/common/components/ui/NavBar.vue';
       <div class="flex-1 flex flex-col">
         <nav-bar />
         <main>
+          <section class="mx-4">
+            <bread-crumbs />
+          </section>
           <router-view />
         </main>
       </div>

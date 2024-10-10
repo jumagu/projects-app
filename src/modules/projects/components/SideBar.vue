@@ -2,6 +2,11 @@
 import { useProjectsStore } from '../stores/projects.store';
 
 const projectsStore = useProjectsStore();
+
+const clickItemHanlder = () => {
+  const drawer = document.getElementById('my-drawer') as HTMLInputElement;
+  drawer.checked = false;
+};
 </script>
 
 <template>
@@ -26,7 +31,7 @@ const projectsStore = useProjectsStore();
             </router-link>
           </summary>
           <ul>
-            <li v-for="task in project.tasks" :key="task.id">
+            <li v-for="task in project.tasks" :key="task.id" @click="clickItemHanlder">
               <router-link :to="`/project/${project.id}`">
                 <span class="truncate">{{ task.name }}</span>
               </router-link>
@@ -34,7 +39,7 @@ const projectsStore = useProjectsStore();
           </ul>
         </details>
 
-        <router-link v-else :to="`/project/${project.id}`">
+        <router-link v-else :to="`/project/${project.id}`" @click="clickItemHanlder">
           <span class="truncate">
             {{ project.name }}
           </span>
