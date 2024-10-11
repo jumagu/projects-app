@@ -1,7 +1,17 @@
+<script setup lang="ts">
+import { useLocalStorage } from '@vueuse/core';
+
+const theme = useLocalStorage('theme', 'dim');
+
+const changeThemeHandler = () => {
+  theme.value = theme.value === 'dim' ? 'nord' : 'dim';
+};
+</script>
+
 <template>
   <label class="swap swap-rotate">
     <!-- this hidden checkbox controls the state -->
-    <input type="checkbox" class="theme-controller" value="nord" />
+    <input type="checkbox" class="theme-controller" :value="theme" @change="changeThemeHandler" />
 
     <!-- sun icon -->
     <svg

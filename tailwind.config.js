@@ -5,7 +5,7 @@ export default {
     extend: {},
   },
   daisyui: {
-    themes: ['nord', 'dim'],
+    themes: ['dim', 'nord'],
   },
   // eslint-disable-next-line no-undef
   plugins: [require('daisyui')],
